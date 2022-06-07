@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import Chat from "../Chat/Chat";
 const Dashboard = () => {
-  const { globaluser, isValid } = useContext(UserContext);
-
+  const { globaluser,allUsers, isValid } = useContext(UserContext);
+  
   if (isValid === false || !globaluser) {
     toast.info("User isn't valid");
     return <Navigate to="/login" />;
@@ -17,7 +17,7 @@ const Dashboard = () => {
       {globaluser && (
         <div className="container mx-5 py-5">
           <Navbar />
-          <Chat flist={globaluser.friendlist} />
+          <Chat flist={globaluser.friendlist} allUsers={allUsers} uid={globaluser.id}/>
         </div>
       )}
     </div>
