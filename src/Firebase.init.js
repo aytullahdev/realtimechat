@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-
+import {getFirestore} from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: "AIzaSyAU123VBAHI60EEUQ75c6ftgn4BeBRsFmg",
   authDomain: "frindlychat-ac7b8.firebaseapp.com",
@@ -12,3 +12,4 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
