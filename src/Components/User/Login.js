@@ -8,7 +8,7 @@ import UserContext from "../Context/UserContext";
 const Login = () => {
   //user details from form
   const [user, setUser] = useState({ name: "", email: "",pwd:"" });
-  const { setGlobaluser } = useContext(UserContext);
+  const { setGlobaluser,setAllusers } = useContext(UserContext);
   const navigate = useNavigate();
   // from handel login
   const handleLogin = async (e) => {
@@ -24,17 +24,25 @@ const Login = () => {
     }
     // Everything is fine
     //Getting the user data from firebase
-    const tempdata = await getUsers();
+    const tempdata = await getUser();
+    const tempallUser = await getAllusers();
     const userdata = tempdata[0];
    
     if(!userdata)   {
         toast.error("User not found");
         return;
     }
+    if(!tempallUser){
+        toast.error("Server error plz try again later");
+        return;
+    }
+    
+    
     if(userdata.pwd===user.pwd && userdata.name===user.name){
         toast.success("Login sucessfull");
         localStorage.setItem("usercred",userdata.id);
         //Navigate to dashboard
+        setAllusers(tempallUser);
         setGlobaluser({name:userdata.name,id:userdata.id,friendlist:userdata.friendlist})
         navigate('/dashboard');
        
@@ -45,12 +53,20 @@ const Login = () => {
 
   };
   //Gating the users;
-  const getUsers = async ()=>{
+  const getUser = async ()=>{
     const usercolRef = collection(db,"users");
     const q = query(usercolRef,where("name","==",user.name));
     const data = await getDocs(q,usercolRef);
    return data.docs.map((doc)=>{
         return {...doc.data(),id:doc.id};
+    });
+}
+const getAllusers = async ()=>{
+    const usercolRef = collection(db,"users");
+   
+    const data = await getDocs(usercolRef);
+   return data.docs.map((doc)=>{
+        return {...doc.data(),id:doc.id,pwd:""};
     });
 }
   

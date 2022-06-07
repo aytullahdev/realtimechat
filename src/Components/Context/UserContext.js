@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 const UserContext = createContext();
 export function UserContextProvider({children}){
     const [globaluser,setGlobaluser] = useState(null);
+    const [allUsers,setAllusers] = useState();
     const id = localStorage.getItem("usercred");
     const isValid=()=>{
         if(!id || !globaluser || !(globaluser.id===id)){
@@ -18,7 +19,7 @@ export function UserContextProvider({children}){
         setGlobaluser(null);
     }
     return(
-        <UserContext.Provider value={{globaluser,setGlobaluser,signOut}}>{children}</UserContext.Provider>
+        <UserContext.Provider value={{globaluser,setGlobaluser,signOut,allUsers,setAllusers}}>{children}</UserContext.Provider>
     )
 
 }

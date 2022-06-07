@@ -17,7 +17,7 @@ const Dashboard = () => {
       {globaluser && (
         <div className="container mx-5 py-5">
           <Navbar />
-          <Chat />
+          <Chat flist={globaluser.friendlist} />
         </div>
       )}
     </div>
