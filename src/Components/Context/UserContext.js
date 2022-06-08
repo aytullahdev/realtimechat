@@ -26,7 +26,7 @@ export function UserContextProvider({children}){
     // firebase collection
     const usercolRef = collection(db,"users");
     
-    onSnapshot(usercolRef,(snap)=>{
+     onSnapshot(usercolRef,(snap)=>{
         const users = [];
         snap.forEach((doc)=>{
              users.push({...doc.data(),id:doc.id,pwd:""})
@@ -36,6 +36,7 @@ export function UserContextProvider({children}){
             users.forEach((usr)=>{
                 if(usr.id===globaluser.id){
                     setGlobaluser(usr);
+                    
                     
                 }
             })
